@@ -1,4 +1,6 @@
-module.exports = function main() {
-    console.log("Debug Info");
-    return 'Hello World!';
+
+
+module.exports = function printInventory(inputs) {
+    console.log("1234567");
+//    return 'Hello World!';
 };
