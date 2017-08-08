@@ -1,3 +1,7 @@
+'use strict';
+
+const datbase= require('../main/datbase.js');
+
 function expand(collection){
       let new_arr=[];
       
@@ -32,7 +36,6 @@ function toCountList(collection){
                   new_arr.push({key:item,count:1})
             }
       }
-      console.log(new_arr);
       return new_arr;
 }
 
@@ -46,25 +49,50 @@ function find(collection,item){
 }
 
 
-//2# 
+//2# 购物单计数 得出key-value对象
 function countShoppingList(shopping_list){
       
       let temp_list =expand(shopping_list);
-      let counted_list =toCountList(temp_list);
-      
-      return counted_list
-
-            
+      let counted_list =toCountList(temp_list);    
+      console.log(counted_list);
+      return counted_list;            
 }
       
-      
-      
-function getListInfo(){
-      
-      
+function findItemInfo(collection,item){
+      for(let each_info of collection){
+            if(each_info['barcode'] == item){
+                  return each_info
+            }
+      }
+      return false     
+} 
+  
+//3# 依据loadAllItems()中return的内容，得出详细的购物清单
+function getListInfo(counted_list){
+      let new_arr=[];
+      let all_list_info=datbase.loadAllItems()  //4#
+      for(let each_counted_list of counted_list){
+            let finded_info = findItemInfo(all_list_info,each_counted_list['key'])
+            if(finded_info){
+                  finded_info.count = each_counted_list['count']
+                  new_arr.push(finded_info);
+            }
+      }
+      console.log(new_arr);
+      return new_arr;           
 }
 
-function countPromotions(){
+//5# 依据loadPromotions()中return的内容，得出优惠的内容
+function countPromotions(list_detail_info){
+      let new_arr =[];
+      let promotion_list = datbase.loadPromotions()  //6#
+      for(let each_detail_info of list_detail_info){
+            let finded_promotion = findItemInfo(promotion_list,each_detail_info)
+            if (finded_promotion){
+                  new_arr.push();
+            }
+      }
+      return new_arr;
       
 }
 
@@ -85,6 +113,8 @@ function printResult(){
 }
 
 module.exports = function printInventory(inputs){
-      countShoppingList(inputs)
+      let counted_list = countShoppingList(inputs);
+      let list_detail_info=getListInfo(counted_list);
+      
       
 };
