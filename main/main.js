@@ -82,16 +82,25 @@ function getListInfo(counted_list){
       return new_arr;           
 }
 
+function findPromotionInfo(collection,item){
+      for(let each of collection){
+            if(each==item['barcode']){
+                  return item
+            }
+      }
+      return false
+}
 //5# 依据loadPromotions()中return的内容，得出优惠的内容
 function countPromotions(list_detail_info){
       let new_arr =[];
       let promotion_list = datbase.loadPromotions()  //6#
       for(let each_detail_info of list_detail_info){
-            let finded_promotion = findItemInfo(promotion_list,each_detail_info)
+            let finded_promotion = findPromotionInfo(promotion_list['barcodes'],each_detail_info)
             if (finded_promotion){
                   new_arr.push();
             }
       }
+      console.log(new_arr);
       return new_arr;
       
 }
@@ -115,6 +124,7 @@ function printResult(){
 module.exports = function printInventory(inputs){
       let counted_list = countShoppingList(inputs);
       let list_detail_info=getListInfo(counted_list);
+      c
       
       
 };
