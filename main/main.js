@@ -234,20 +234,10 @@ function printResult(result_list_detail_info,result_promotion_list,all_type_mone
 module.exports = function printInventory(inputs){
       let counted_list = countShoppingList(inputs);
       let list_detail_info=getListInfo(counted_list);  //购买所有东西的详细信息
-      // let used_for_promotion =list_detail_info;
-      // console.log(list_detail_info)
       let promotion_list = countPromotions(list_detail_info)
-      // console.log(promotion_list)
       let result_list_detail_info = sumAll(list_detail_info,promotion_list)
-      // console.log(result_list_detail_info)
       let result_promotion_list =sumPromotion(promotion_list)
-      // console.log(result_promotion_list)
-
       let all_type_money=sumMoney(list_detail_info,promotion_list)
-      // console.log(list_detail_info)
-      // console.log(promotion_list)
-
       console.log(printResult(result_list_detail_info,result_promotion_list,all_type_money))
-      
       
 };
