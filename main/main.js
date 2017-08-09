@@ -93,7 +93,10 @@ function findPromotionInfo(collection,item){
 }
 
 function hasFree(item){
-      return parseInt(item/2,10)
+      if(item>2){
+            item=1
+      }
+      return item
 
 }
 function BuyTwoGetOneFree(temp_arr){
@@ -169,7 +172,7 @@ function sumAll(all_collection,promotion_collection){
 
       let print_part1 ='***<没钱赚商店>购物清单***\n';
       for(let item of collection){
-            print_part1 +='名称：'+item.name+'，数量'+item.count+item.unit+'，单价:'+item.price.toFixed(2)+'(元)，小计：'+item.total.toFixed(2)+'(元)\n'
+            print_part1 +='名称：'+item.name+'，数量：'+item.count+item.unit+'，单价：'+item.price.toFixed(2)+'(元)，小计：'+item.total.toFixed(2)+'(元)\n'
       }
 
       return print_part1
@@ -188,7 +191,7 @@ function sumPromotion(collection){
       return print_part1
 }
 
-function sumMoneyType(collection){
+function sumMoneyPromotion(collection){
       let sum=0 ;
       for(let item of collection){
             sum+=item.count*item.price;
@@ -197,14 +200,29 @@ function sumMoneyType(collection){
 
 }
 
+function sumMoneyType(all,promotion){
+      let sum=0 ;
+      let pro =0;
+      for(let item of all){
+            sum+=item.count*item.price;
+      }
+      for(let item of promotion){
+            pro+=item.count*item.price;
+      }
+      let total_sum =sum -pro;
+      return total_sum
+
+
+}
+
 //#9 计价
 //输出
 //'总计：51.00(元)\n' +
 // '节省：7.50(元)\n' +
 function sumMoney(all,promotion){
-      let all_products_money = sumMoneyType(all);
-      let promotion_products_money=sumMoneyType(promotion);
-      let result ='总计：'+all_products_money+'(元)\n'+'节省：'+promotion_products_money+'(元)\n';
+      let all_products_money = sumMoneyType(all,promotion);
+      let promotion_products_money=sumMoneyPromotion(promotion);
+      let result ='总计：'+all_products_money.toFixed(2)+'(元)\n'+'节省：'+promotion_products_money.toFixed(2)+'(元)\n';
       return result
 }
 
@@ -226,7 +244,8 @@ module.exports = function printInventory(inputs){
       // console.log(result_promotion_list)
 
       let all_type_money=sumMoney(list_detail_info,promotion_list)
-      // console.log(all_type_money)
+      // console.log(list_detail_info)
+      // console.log(promotion_list)
 
       console.log(printResult(result_list_detail_info,result_promotion_list,all_type_money))
       
